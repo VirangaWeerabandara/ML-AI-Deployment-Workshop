@@ -95,26 +95,3 @@ The dashboard connects to http://127.0.0.1:8000 by default.
 
 ---
 
-## 🎯 Demo Flow for Instructors
-
-| Time | Demo | What to Show |
-|------|------|-------------|
-| 1:45 | Demo 1 | FastAPI basics, Swagger UI, health checks |
-| 2:00 | Demo 1 | `test_api.py` — batch vs single latency comparison |
-| 2:10 | Demo 1 | Walk through the Dockerfile |
-| 2:30 | Demo 4 | Quantization concepts (no GPU needed) |
-| 2:45 | Demo 2 | HuggingFace pipeline — text generation + sentiment |
-| 3:00 | Demo 2 | `hf_api_server.py` — real model behind FastAPI |
-| 3:15 | Demo 3 | Download model → start LLM server → test |
-| 3:30 | Demo 5 | Interactive dashboard — students test live |
-| 3:45 | Demo 3 | Temperature comparison endpoint |
-
----
-
-## 💡 Tips for Presenters
-
-1. **Start Demo 1 first** — it has no heavy dependencies and demonstrates core API concepts.
-2. **Run Demo 4 early** — the quantization simulation needs zero downloads and explains the WHY before the HOW.
-3. **Download the GGUF model during break** — `python download_model.py` takes a few minutes.
-4. **Use the Interactive Dashboard** (Demo 5) to let students visually test the APIs instead of using curl.
-5. **The LLM server has a mock mode** — if the model file isn't present, it still serves mock responses so students can see the API structure.
