@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from transformers import pipeline
 import time
@@ -8,6 +9,15 @@ app = FastAPI(
     title="🤗 HuggingFace Sentiment API",
     description="Serves a real HuggingFace sentiment analysis model via REST API.",
     version="1.0.0",
+)
+
+# ─── CORS Configuration ──────────────────────────────────────
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # ─── Load Model at Startup ──────────────────────────────────

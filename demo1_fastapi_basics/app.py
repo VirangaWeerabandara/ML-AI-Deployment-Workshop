@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Optional
 import random
@@ -12,6 +13,17 @@ app = FastAPI(
     version="1.0.0",
 )
 
+# ─── CORS Configuration ──────────────────────────────────────
+# Allow requests from the interactive dashboard (and localhost in general)
+app.add_middleware(
+    CORSMiddleware,
+    # Allow all origins (for demo; restrict in production)
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, OPTIONS, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
 
 # ─── Request / Response Schemas ──────────────────────────────
 class TextRequest(BaseModel):
@@ -21,7 +33,8 @@ class TextRequest(BaseModel):
         min_length=1,
         max_length=5000,
         description="The text to analyze for sentiment.",
-        json_schema_extra={"examples": ["I absolutely love this product! It's amazing."]}
+        json_schema_extra={"examples": [
+            "I absolutely love this product! It's amazing."]}
     )
 
 
@@ -44,8 +57,10 @@ class HealthResponse(BaseModel):
 # In production, you'd load a real sklearn / PyTorch / TF model here.
 # This mock simulates the prediction pipeline.
 
-POSITIVE_WORDS = {"love", "great", "amazing", "excellent", "wonderful", "best", "fantastic", "happy", "good", "awesome"}
-NEGATIVE_WORDS = {"hate", "terrible", "awful", "worst", "bad", "horrible", "disgusting", "poor", "ugly", "boring"}
+POSITIVE_WORDS = {"love", "great", "amazing", "excellent",
+                  "wonderful", "best", "fantastic", "happy", "good", "awesome"}
+NEGATIVE_WORDS = {"hate", "terrible", "awful", "worst",
+                  "bad", "horrible", "disgusting", "poor", "ugly", "boring"}
 
 
 def mock_sentiment_model(text: str) -> dict:

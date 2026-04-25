@@ -1,0 +1,133 @@
+# ─── Python ──────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ─── Virtual Environments ────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+pythonenv*/
+
+# ─── ML Models & Large Files ─────────────────────────────
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+*.ckpt
+*.gguf
+*.bin
+*.safetensors
+models/
+*.model
+model.pkl
+feature_names.pkl
+target_names.pkl
+
+# ─── Data ────────────────────────────────────────────────
+*.csv
+*.xlsx
+*.xls
+*.json
+data/
+datasets/
+*.parquet
+
+# ─── IDE & Editor ────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
+*.iml
+
+# ─── Testing ─────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+*.coverage
+.coveragerc
+
+# ─── Environment & Config ────────────────────────────────
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.vault
+config.local.json
+
+# ─── OS Files ────────────────────────────────────────────
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+ehthumbs.db
+Desktop.ini
+
+# ─── Logs & Temp ─────────────────────────────────────────
+*.log
+logs/
+*.tmp
+tmp/
+*.pid
+*.out
+
+# ─── Jupyter Notebooks ───────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# ─── mypy & Type Checking ────────────────────────────────
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ─── Docker ───────────────────────────────────────────────
+.dockerignore
+docker-compose.override.yml
+
+# ─── Node/JavaScript (if using npm for frontend) ────────
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+dist/
+build/
+
+# ─── Node/Webpack ────────────────────────────────────────
+bundle.js
+bundle.js.map
+webpack.config.local.js
+
+# ─── Misc ────────────────────────────────────────────────
+*.bak
+*.backup
+*~
+.cache/
+cache/
+__MACOSX/
+.vscode-server/
+.history/
