@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import pickle
 import os
@@ -8,6 +9,15 @@ app = FastAPI(
     title="ML Inference API",
     description="Simple ML model inference API for iris classification",
     version="1.0.0"
+)
+
+# ─── CORS Configuration ──────────────────────────────────────
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Load model and metadata
