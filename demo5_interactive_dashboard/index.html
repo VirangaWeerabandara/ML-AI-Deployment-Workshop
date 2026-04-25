@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 ML Deployment Workshop Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🤖</span>
+                    <div>
+                        <h1>ML Deployment Dashboard</h1>
+                        <p class="subtitle">Workshop Session 2 — Interactive API Tester</p>
+                    </div>
+                </div>
+                <div class="connection-status" id="connectionStatus">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Disconnected</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tabs">
+            <button class="tab active" data-tab="sentiment">😊 Sentiment API</button>
+            <button class="tab" data-tab="llm">🦙 LLM Chat</button>
+            <button class="tab" data-tab="batch">📦 Batch Test</button>
+            <button class="tab" data-tab="concepts">📚 Concepts</button>
+        </nav>
+
+        <!-- Tab Content -->
+        <main class="content">
+
+            <!-- Sentiment API Tab -->
+            <section class="tab-content active" id="tab-sentiment">
+                <div class="card">
+                    <h2>🔮 Sentiment Analysis</h2>
+                    <p class="card-desc">Send text to the FastAPI sentiment endpoint and see the prediction.</p>
+                    <div class="input-group">
+                        <label>API Base URL</label>
+                        <input type="text" id="sentimentUrl" value="http://127.0.0.1:8000" placeholder="http://127.0.0.1:8000">
+                    </div>
+                    <div class="input-group">
+                        <label>Text to Analyze</label>
+                        <textarea id="sentimentText" rows="3" placeholder="Type something like: I absolutely love this product!">I absolutely love this workshop! Learning about deployment is amazing.</textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="analyzeSentiment()">🔍 Analyze Sentiment</button>
+                    <div class="quick-tests">
+                        <span class="quick-label">Quick tests:</span>
+                        <button class="btn-chip" onclick="quickSentiment('positive')">😊 Positive</button>
+                        <button class="btn-chip" onclick="quickSentiment('negative')">😠 Negative</button>
+                        <button class="btn-chip" onclick="quickSentiment('neutral')">😐 Neutral</button>
+                    </div>
+                </div>
+                <div class="card result-card" id="sentimentResult" style="display:none;">
+                    <h3>Result</h3>
+                    <div id="sentimentResultContent"></div>
+                </div>
+            </section>
+
+            <!-- LLM Chat Tab -->
+            <section class="tab-content" id="tab-llm">
+                <div class="card">
+                    <h2>🦙 Local LLM Chat</h2>
+                    <p class="card-desc">Chat with the locally running quantized LLM (TinyLlama).</p>
+                    <div class="input-group">
+                        <label>API Base URL</label>
+                        <input type="text" id="llmUrl" value="http://127.0.0.1:8000" placeholder="http://127.0.0.1:8000">
+                    </div>
+                    <div class="input-group">
+                        <label>Prompt</label>
+                        <textarea id="llmPrompt" rows="3" placeholder="Ask the LLM anything...">Explain what an API is in simple terms.</textarea>
+                    </div>
+                    <div class="slider-group">
+                        <div class="input-group">
+                            <label>Max Tokens: <span id="maxTokensVal">100</span></label>
+                            <input type="range" id="maxTokens" min="10" max="300" value="100" oninput="document.getElementById('maxTokensVal').textContent=this.value">
+                        </div>
+                        <div class="input-group">
+                            <label>Temperature: <span id="tempVal">0.7</span></label>
+                            <input type="range" id="temperature" min="0" max="20" value="7" oninput="document.getElementById('tempVal').textContent=(this.value/10).toFixed(1)">
+                        </div>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" onclick="generateLLM()">🤖 Generate</button>
+                        <button class="btn btn-secondary" onclick="compareTemps()">🌡️ Compare Temperatures</button>
+                    </div>
+                </div>
+                <div class="card result-card" id="llmResult" style="display:none;">
+                    <h3>Response</h3>
+                    <div id="llmResultContent"></div>
+                </div>
+            </section>
+
+            <!-- Batch Test Tab -->
+            <section class="tab-content" id="tab-batch">
+                <div class="card">
+                    <h2>📦 Batch vs Single — Latency Demo</h2>
+                    <p class="card-desc">Compare the total latency of sending N individual requests vs one batch request.</p>
+                    <div class="input-group">
+                        <label>API Base URL</label>
+                        <input type="text" id="batchUrl" value="http://127.0.0.1:8000" placeholder="http://127.0.0.1:8000">
+                    </div>
+                    <div class="input-group">
+                        <label>Number of items: <span id="batchCountVal">10</span></label>
+                        <input type="range" id="batchCount" min="2" max="30" value="10" oninput="document.getElementById('batchCountVal').textContent=this.value">
+                    </div>
+                    <button class="btn btn-primary" onclick="runBatchTest()">⚡ Run Comparison</button>
+                </div>
+                <div class="card result-card" id="batchResult" style="display:none;">
+                    <h3>Results</h3>
+                    <div id="batchResultContent"></div>
+                </div>
+            </section>
+
+            <!-- Concepts Tab -->
+            <section class="tab-content" id="tab-concepts">
+                <div class="concepts-grid">
+                    <div class="concept-card">
+                        <div class="concept-icon">🌐</div>
+                        <h3>Real-time Inference</h3>
+                        <p>Model wrapped in an API. User sends request → model infers → result returned immediately.</p>
+                        <div class="concept-example">Example: ChatGPT, fraud detection</div>
+                    </div>
+                    <div class="concept-card">
+                        <div class="concept-icon">📅</div>
+                        <h3>Batch Inference</h3>
+                        <p>Predictions generated on a schedule for large datasets, stored in a database.</p>
+                        <div class="concept-example">Example: Netflix recommendations overnight</div>
+                    </div>
+                    <div class="concept-card">
+                        <div class="concept-icon">📱</div>
+                        <h3>Edge Deployment</h3>
+                        <p>Model runs directly on user's device — no cloud needed. Great for privacy & offline.</p>
+                        <div class="concept-example">Example: On-device face recognition</div>
+                    </div>
+                    <div class="concept-card">
+                        <div class="concept-icon">⏱️</div>
+                        <h3>Latency</h3>
+                        <p>Time to process <strong>one request</strong>. Measured in ms. Critical for real-time UX.</p>
+                        <div class="concept-example">Target: &lt;100ms for APIs, &lt;1s for LLMs</div>
+                    </div>
+                    <div class="concept-card">
+                        <div class="concept-icon">📈</div>
+                        <h3>Throughput</h3>
+                        <p>Requests handled per second. Critical for scaling to millions of users.</p>
+                        <div class="concept-example">Trade-off: Batching ↑ throughput but ↑ latency</div>
+                    </div>
+                    <div class="concept-card">
+                        <div class="concept-icon">📐</div>
+                        <h3>Quantization</h3>
+                        <p>Reducing weight precision (FP16→INT4). Cuts memory 4x with minimal accuracy loss.</p>
+                        <div class="concept-example">7B model: 14GB → 3.5GB VRAM</div>
+                    </div>
+                    <div class="concept-card">
+                        <div class="concept-icon">🐳</div>
+                        <h3>Docker</h3>
+                        <p>Packages OS + dependencies + code into a portable container. Eliminates "works on my machine."</p>
+                        <div class="concept-example">Build once, deploy anywhere</div>
+                    </div>
+                    <div class="concept-card">
+                        <div class="concept-icon">⚡</div>
+                        <h3>vLLM & PagedAttention</h3>
+                        <p>Manages LLM memory like OS virtual memory. Batches requests for 10-20x throughput.</p>
+                        <div class="concept-example">Industry standard for production LLMs</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
