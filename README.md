@@ -54,6 +54,104 @@ codes/
 
 ---
 
+## 🔧 Virtual Environment Setup
+
+A Python virtual environment (venv) isolates project dependencies and prevents conflicts between demos. **It's recommended to use a separate venv for each demo**, especially since they have different requirements (FastAPI, HuggingFace, vLLM, etc.).
+
+### Create a Virtual Environment
+
+**For each demo, follow these steps:**
+
+#### Windows:
+
+```bash
+cd demo1_fastapi_basics  # (or any demo folder)
+python -m venv venv
+venv\Scripts\activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+#### macOS / Linux:
+
+```bash
+cd demo1_fastapi_basics  # (or any demo folder)
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### Activate / Deactivate Virtual Environment
+
+**Activate (to enter the venv):**
+
+- **Windows:** `venv\Scripts\activate`
+- **macOS / Linux:** `source venv/bin/activate`
+
+**Deactivate (to exit the venv):**
+
+```bash
+deactivate
+```
+
+### Workflow for Each Demo
+
+1. Navigate to the demo folder:
+
+   ```bash
+   cd demo1_fastapi_basics
+   ```
+
+2. Activate the venv:
+   - **Windows:** `venv\Scripts\activate`
+   - **macOS / Linux:** `source venv/bin/activate`
+
+3. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Run the demo (as shown in Quick Start Guide below)
+
+5. When done, deactivate:
+   ```bash
+   deactivate
+   ```
+
+### Quick Reference: Create venv for All Demos
+
+If you want to set up venv for all demos at once (Windows):
+
+```batch
+for /d %d in (demo*) do (
+  cd %d
+  python -m venv venv
+  venv\Scripts\activate
+  pip install --upgrade pip
+  pip install -r requirements.txt
+  deactivate
+  cd ..
+)
+```
+
+Or use a bash script for macOS / Linux:
+
+```bash
+for dir in demo*/; do
+  cd "$dir"
+  python3 -m venv venv
+  source venv/bin/activate
+  pip install --upgrade pip
+  pip install -r requirements.txt
+  deactivate
+  cd ..
+done
+```
+
+---
+
 ## ⚡ Quick Start Guide
 
 ### Demo 1: FastAPI Basics (Mock Model)
